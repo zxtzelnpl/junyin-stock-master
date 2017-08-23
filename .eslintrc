@@ -1,0 +1,30 @@
+{
+  "env":{
+    "node":true,
+    "es6":true
+  },
+  "extends":"eslint:recommended",
+  "parserOptions":{
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread":true,
+      "jsx":true
+    },
+    "sourceType":"module"
+  },
+  "plugins":[
+  ],
+  "globals": {
+
+  },
+  "rules":{
+    "indent":[1, 2, { "SwitchCase": 1 }],
+    "linebreak-style": 0,
+    "quotes": [1, "single", "avoid-escape"],
+    "no-extra-semi": 0,
+    "no-unused-expressions": 0,
+    "no-unused-vars": 0,
+    "no-console": 1,
+    "no-mixed-spaces-and-tabs": 0,
+    "no-cond-assign": 0
+  }
+}

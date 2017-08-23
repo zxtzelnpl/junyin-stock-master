@@ -1,0 +1,22 @@
+{
+  "name": "junyin-stock-master",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "was <zxt_zel_npl@163.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}
