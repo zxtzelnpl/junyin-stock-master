@@ -1,0 +1,24 @@
+doctype
+html
+    head
+        title #{title}
+        link(href="/css/normalize.css",rel="stylesheet")
+        link(href="/css/front.css",rel="stylesheet")
+    body
+        input(type="hidden",id="page",value=1)
+        input(type="hidden",id="room",value=room)
+        .content
+            if videos&&videos.length>0
+                iframe(id="videoId" height=450 width=600 src='http://player.youku.com/embed/'+videos[0].vid frameborder=0 'allowfullscreen')
+                div.videoIdBox#videoIdBox
+                    each item in videos
+                        div(class="videoId",data-vid='http://player.youku.com/embed/'+item.vid)
+                            | #{item.title}
+                            span.time #{moment(item.meta.createAt).format('YYYY年MM月DD日')}
+                div.more#more 更多
+            else
+                div 等待管理员录入视频... ...
+    script(src="/vendor/js/jquery-3.2.1.min.js")
+    script(src="/vendor/js/moment.min.js")
+    script(src="/js/front.js")
+

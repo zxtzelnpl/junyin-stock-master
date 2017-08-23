@@ -3,6 +3,7 @@ var Room=require('../controllers/room');
 var Video=require('../controllers/video');
 var Admin=require('../controllers/admin');
 var Index=require('../controllers/index');
+var Front=require('../controllers/front');
 
 
 module.exports=function(app){
@@ -13,6 +14,7 @@ module.exports=function(app){
   });
 
   /**前端页面**/
+  app.get('/detail/:page',Front.detail);
   app.get('/room/:room',Index.index);
   app.get('/more',Index.more);
 

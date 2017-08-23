@@ -1,0 +1,99 @@
+extends layout/layout-front
+
+block css
+    link(href="/css/detailPage.css",rel="stylesheet")
+block content
+    .detailPage
+        .detail
+            .title
+                img(src="/img/medium-logo.png" alt="")
+                div
+                    p 君银天财会
+                    p 14:21
+            .content
+                p 据说，今天的气温是这样的↓↓↓你在的地方啥颜色？被热紫了，还是被烫红了？
+                p 还有3分钟收盘，大家都来说说，沪指会不会被热的翻红？
+                p: img(src="/img/detail/content.jpg" alt="")
+            .sub
+                span.fa.fa-thumbs-o-up
+                p: span 153
+        .hot-comments
+            .title 热门评论
+            .comments
+                ul
+                    if(hotComments && hotComments.length > 0)
+                        each item in hotComments
+                            li
+                                .box
+                                    .user-img: img(src="/img/was/user.jpg" alt="")
+                                    .info
+                                        p.name-box
+                                            span.name KKKKKKK线
+                                            span.right
+                                                a
+                                                    span.fa.fa-thumbs-o-up
+                                                    span.num 0
+                                                a.please
+                                                    span.fa.fa-commenting-o
+                                                    span.num 2
+                                        p.time 2017-07-14 14:33
+                                        p.comment 可以进去抄底了吗，老师
+                                        .next-comment
+                                            p
+                                                span.name 董齐安
+                                                |:
+                                                span 先看小幅反抽。
+                                            p
+                                                span.name 董齐安
+                                                |:
+                                                span 先看小幅反抽。
+                                            .up-arrow
+        .all-comments
+            .title
+                |全部评论(
+                span 16
+                |)
+            .comments
+                ul
+                    if(allComments && allComments.length > 0)
+                        each item in allComments
+                            li
+                                .box
+                                    .user-img: img(src="/img/was/user.jpg" alt="")
+                                    .info
+                                        p.name-box
+                                            span.name KKKKKKK线
+                                            span.right
+                                                a
+                                                    span.fa.fa-thumbs-o-up
+                                                    span.num 0
+                                                a.please
+                                                    span.fa.fa-commenting-o
+                                                    span.num 2
+                                        p.time 2017-07-14 14:33
+                                        p.comment 可以进去抄底了吗，老师
+                                        .next-comment
+                                            p
+                                                span.name 董齐安
+                                                | :
+                                                span 先看小幅反抽。
+                                            p
+                                                span.name 董齐安
+                                                | :
+                                                span 先看小幅反抽。
+                                            .up-arrow
+        .input-comment
+            input(id="comment" type="text" placeholder="在这里发表评论")
+            a.fa.fa-comment
+
+
+
+block script
+    script.
+        /*点击评论直接跳转底部*/
+        $('.please').on('click',function(){
+            var height=document.documentElement.scrollHeight;
+            var screenH=document.documentElement.clientHeight;
+            $(document).scrollTop(height-screenH);
+            $('#comment').focus()
+        })

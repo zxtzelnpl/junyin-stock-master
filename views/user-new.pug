@@ -1,0 +1,64 @@
+extends layout/layout
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/new-user.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .new-user#pad-wrapper
+                if(user)
+                    .row-fluid.header
+                        h3 修改#{user.name}的信息
+                    .row-fluid.form-wrapper
+                        .span9.with-sidebar
+                            .container
+                                form.new_user_form.inline-input(method="POST",action="/user/update",target="_self")
+                                    input(type="hidden",name="_id",value=user._id)
+                                    .span12.field-box
+                                        label 用户名:
+                                        input.span9#name(type="text",name="name",value=user.name)
+                                    .span12.field-box
+                                        label 密码:
+                                        input.span9#password(type="password",name="password")
+                                    .span12.field-box
+                                        label 备注:
+                                        input.span9#note(type="text",name="note",value=user.note)
+                                    .span11.field-box.actions
+                                        input.btn-glow.primary#sub(type="button",value="Update user")
+                                        span OR
+                                        input.reset(type="reset",value="Cancel")
+                else
+                    .row-fluid.header
+                        h3 新建立用户
+                    .row-fluid.form-wrapper
+                        .span9.with-sidebar
+                            .container
+                                form.new_user_form.inline-input(method="POST",action="/user/new",target="_self")
+                                    .span12.field-box
+                                        label 用户名:
+                                        input.span9#name(type="text",name="name")
+                                    .span12.field-box
+                                        label 密码:
+                                        input.span9#password(type="password",name="password")
+                                    .span12.field-box
+                                        label 备注:
+                                        input.span9#note(type="text",name="note")
+                                    .span11.field-box.actions
+                                        input.btn-glow.primary#sub(type="button",value="Create user")
+                                        span OR
+                                        input.reset(type="reset",value="Cancel")
+
+block script
+    script.
+      $(function () {
+
+        var $submit=$('#sub');
+        var $form = $("form.new_user_form");
+
+        $submit.on('click',function(){
+          $form.submit();
+        })
+      });

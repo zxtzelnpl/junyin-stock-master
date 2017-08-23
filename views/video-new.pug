@@ -1,0 +1,64 @@
+extends layout/layout
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/new-user.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .new-user#pad-wrapper
+                if(video)
+                    .row-fluid.header
+                        h3
+                            a(href="/admin/room-profile/"+room._id,target="_self") #{room.name}
+                            |房间视频修改
+                    .row-fluid.form-wrapper
+                        .span12.with-sidebar
+                            .container
+                                form.new_user_form.inline-input(method="POST",action="/video/update",target="_self")
+                                    input(type="hidden",name="_id",value=video._id)
+                                    input(type="hidden",name="room",value=room._id)
+                                    .span12.field-box
+                                        label 视频标题:
+                                        input.span9#title(type="text",name="title",value=video.title)
+                                    .span12.field-box
+                                        label 视频地址:
+                                        input.span9#url(type="text",name="url",value=video.url)
+                                    .span11.field-box.actions
+                                        input.btn-glow.primary#sub(type="button",value="Update video")
+                                        span OR
+                                        input.reset(type="reset",value="Cancel")
+                else
+                    .row-fluid.header
+                        h3
+                            |上传新的视频到
+                            a(href="/admin/room-profile/"+room._id,target="_self") #{room.name}
+                    .row-fluid.form-wrapper
+                        .span12.with-sidebar
+                            .container
+                                form.new_user_form.inline-input(method="POST",action="/video/new",target="_self")
+                                    input(type="hidden",name="room",value=room._id)
+                                    .span12.field-box
+                                        label 视频标题:
+                                        input.span9#title(type="text",name="title")
+                                    .span12.field-box
+                                        label 视频地址:
+                                        input.span9#url(type="text",name="url")
+                                    .span11.field-box.actions
+                                        input.btn-glow.primary#sub(type="button",value="Create video")
+                                        span OR
+                                        input.reset(type="reset",value="Cancel")
+
+block script
+    script.
+      $(function () {
+
+        var $submit=$('#sub');
+        var $form = $("form.new_user_form");
+
+        $submit.on('click',function(){
+          $form.submit();
+        })
+      });

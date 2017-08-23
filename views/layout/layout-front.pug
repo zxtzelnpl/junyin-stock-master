@@ -1,0 +1,15 @@
+doctype
+html(lang="en")
+    head
+        include ../include/front/meta
+        title #{title}
+        link(href="/css/reset.css",rel="stylesheet")
+        link(rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css")
+        block css
+        script(src="/js/mobile640.js")
+
+    body
+        block content
+
+    script(src="/libs/jquery/dist/jquery.min.js")
+    block script

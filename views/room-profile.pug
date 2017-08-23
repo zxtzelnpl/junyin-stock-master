@@ -1,0 +1,43 @@
+extends layout/layout
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/user-profile.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .user-profile#pad-wrapper
+                .row-fluid.header
+                    h3 #{room.name}详情页面
+                .row-fluid.profile
+                    .span12.bio
+                        .profile-box
+                            .span12
+                                h6: a(href=url,target="_blank") #{url}
+                                .span12 #{room.note}
+                            .span12.pull-right
+                                a.btn-flat.pull-right.success.new-product.add-user(href="/admin/video-new/" + room._id) +Add video
+                            .span12
+                            table.table.table-hover
+                                thead
+                                    tr
+                                        th.span4 视频标题
+                                        th.span5
+                                            span.line
+                                            | 视频地址
+                                        th.span2
+                                            span.line
+                                            | 上传日期
+                                        th.span1
+                                            span.line
+                                            | 修改
+                                tbody
+                                    if videos&&videos.length > 0
+                                        each item in videos
+                                            tr(class="item-id-" + item._id)
+                                                td #{item.title}
+                                                td #{item.url}
+                                                td #{moment(item.meta.createAt).format('YYYY年MM月DD日')}
+                                                td: a(href="/admin/video-update/" + item._id) 修改

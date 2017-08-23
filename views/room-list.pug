@@ -1,0 +1,32 @@
+extends layout/layout
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/new-user.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .new-user#pad-wrapper
+                .row-fluid.header
+                    h3 房间列表
+                .row-fluid.table
+                    table.table.table-hover
+                        thead
+                            tr
+                                th 用户名
+                                th 备注
+                                th 详情
+                                th 修改
+                        tbody
+                            if rooms && rooms.length > 0
+                                each item in rooms
+                                    tr(class="item-id-" + item._id)
+                                        td #{item.name}
+                                        td #{item.note}
+                                        td: a(href="/admin/room-profile/"+item._id) 详情
+                                        td: a(href="/admin/room-update/"+item._id) 修改
+
+
+block script

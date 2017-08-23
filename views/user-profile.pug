@@ -1,0 +1,32 @@
+extends layout/layout
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/user-profile.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .user-profile#pad-wrapper
+                .row-fluid.header
+                    h3 #{user.name}详情页面
+                .row-fluid.profile
+                    .span9.bio
+                        .profile-box
+                            .span12.section
+                                h6 #{user.name}
+                                p #{user.note}
+                            h6 详细时间
+                            br
+                            table.table.table-hover
+                                thead
+                                    tr
+                                        th.span3 新建日期
+                                        th.span3
+                                            span.line
+                                            | 修改日期
+                                tbody
+                                    tr.first
+                                        td #{moment(user.meta.createAt).format('YYYY年MM月DD日hh时mm分ss秒')}
+                                        td #{moment(user.meta.updateAt).format('YYYY年MM月DD日hh时mm分ss秒')}

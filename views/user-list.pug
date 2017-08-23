@@ -1,0 +1,34 @@
+extends layout/layout-admin
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/new-user.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .new-user#pad-wrapper
+                .row-fluid.header
+                    h3 用户列表
+                .row-fluid.table
+                    table.table.table-hover
+                        thead
+                            tr
+                                th 用户名
+                                th 备注
+                                th 创建时间
+                                th 修改时间
+                                th 修改
+                        tbody
+                            if users && users.length > 0
+                                each item in users
+                                    tr(class="item-id-" + item._id)
+                                        td #{item.name}
+                                        td #{item.note}
+                                        td #{moment(item.meta.createAt).format('YYYY年MM月DD日')}
+                                        td #{moment(item.meta.createAt).format('YYYY年MM月DD日')}
+                                        td: a(href="/admin/user-update/"+item._id) 修改
+
+
+block script

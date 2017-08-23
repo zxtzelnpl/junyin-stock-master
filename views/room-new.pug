@@ -1,0 +1,58 @@
+extends layout/layout
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/new-user.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .new-user#pad-wrapper
+                if(room)
+                    .row-fluid.header
+                        h3 修改#{room.name}的信息
+                    .row-fluid.form-wrapper
+                        .span9.with-sidebar
+                            .container
+                                form.new_user_form.inline-input(method="POST",action="/room/update",target="_self")
+                                    input(type="hidden",name="_id",value=room._id)
+                                    .span12.field-box
+                                        label 房间号:
+                                        input.span9#name(type="text",name="name",value=room.name)
+                                    .span12.field-box
+                                        label 备注:
+                                        input.span9#note(type="text",name="note",value=room.note)
+                                    .span11.field-box.actions
+                                        input.btn-glow.primary#sub(type="button",value="Update room")
+                                        span OR
+                                        input.reset(type="reset",value="Cancel")
+                else
+                    .row-fluid.header
+                        h3 新建新房间
+                    .row-fluid.form-wrapper
+                        .span9.with-sidebar
+                            .container
+                                form.new_user_form.inline-input(method="POST",action="/room/new",target="_self")
+                                    .span12.field-box
+                                        label 房间号:
+                                        input.span9#name(type="text",name="name")
+                                    .span12.field-box
+                                        label 备注:
+                                        input.span9#note(type="text",name="note")
+                                    .span11.field-box.actions
+                                        input.btn-glow.primary#sub(type="button",value="Create room")
+                                        span OR
+                                        input.reset(type="reset",value="Cancel")
+
+block script
+    script.
+      $(function () {
+
+        var $submit=$('#sub');
+        var $form = $("form.new_user_form");
+
+        $submit.on('click',function(){
+          $form.submit();
+        })
+      });

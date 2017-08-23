@@ -1,0 +1,20 @@
+<!-- sidebar -->
+#sidebar-nav
+    #dashboard-menu
+        if(1)
+            li
+                a.dropdown-toggle(href="#")
+                    i.icon-tablet
+                    span 房间管理
+                    i.icon-chevron-down
+                ul.submenu
+                    li: a(href="/admin/room-list") 房间列表
+                    li: a(href="/admin/room-new") 新建房间
+            li
+                a.dropdown-toggle(href="#")
+                    i.icon-group
+                    span 用户管理
+                    i.icon-chevron-down
+                ul.submenu
+                    li: a(href="/admin/user-list") 用户列表
+                    li: a(href="/admin/user-new") 用户注册
