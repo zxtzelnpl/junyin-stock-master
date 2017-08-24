@@ -1,0 +1,80 @@
+extends layout/layout-admin
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/user-profile.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .user-profile#pad-wrapper
+                .row-fluid.header
+                    h3.name #{comment.topic.title}
+                    span.area #{comment.content}
+                .row-fluid.profile
+                    .span12.bio
+                        .profile-box
+                            h6 老师回复记录
+                            table.table.t.able-hover
+                                thead
+                                    tr
+                                        th 老师姓名
+                                        th 回复内容
+                                        th 删除
+                                tbody
+                                    if comment.sub.length>0
+                                        each item in comment.sub
+                                            tr(class="item-id-" + item._id)
+                                                td #{item.name}
+                                                td #{item.content}
+                                                td: a(data-id=item._id).btn-flat.danger.del_sub 删除
+                            .span12.section.comment
+                                h6(id="name" contenteditable=true) 董琦安
+                                textarea(id="content") 抄低买入，全仓
+                            .span12.submit-box.pull-right
+                                input.btn-glow.primary(id="add_sub" type="button" value="新增加老师评论")
+
+block script
+    script.
+      $(function () {
+        $('#add_sub').on('click',function(){
+          var name = $("#name").html();
+          var content = $("#content").val();
+          console.log(name,content);
+          $.ajax({
+            method: 'POST',
+            url: '/comment/add-sub/' + '#{comment._id}',
+            data: {
+              name:name,
+              content:content
+            },
+            success: function (data) {
+              if (data.state === 'success') {
+                console.log(data.sub)
+              }
+            },
+            error: function (err) {
+              console.log(err)
+            }
+          })
+        })
+        $('.del_sub').on('click',function(){
+          var sub_id = $(this).data('id');
+          $.ajax({
+            method:'POST',
+            url: '/comment/del-sub/' + '#{comment._id}',
+            data:{
+              sub_id:sub_id
+            },
+            success: function (data) {
+              if (data.state === 'success') {
+                console.log(data.sub)
+              }
+            },
+            error: function (err) {
+              console.log(err)
+            }
+          })
+        })
+      });

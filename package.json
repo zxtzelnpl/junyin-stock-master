@@ -30,6 +30,7 @@
     "express-session": "^1.15.5",
     "moment": "^2.18.1",
     "mongoose": "^4.11.7",
-    "pug": "^2.0.0-rc.3"
+    "pug": "^2.0.0-rc.3",
+    "ueditor": "^1.2.3"
   }
 }

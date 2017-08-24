@@ -1,20 +1,24 @@
-var User=require('../controllers/user');
-var Room=require('../controllers/room');
-var Video=require('../controllers/video');
-var Admin=require('../controllers/admin');
-var Index=require('../controllers/index');
-var Front=require('../controllers/front');
+const User=require('../controllers/user');
+const Room=require('../controllers/room');
+const Video=require('../controllers/video');
+const Admin=require('../controllers/admin');
+const Index=require('../controllers/index');
+const Front=require('../controllers/front');
+const Topic=require('../controllers/topic');
+const Comment=require('../controllers/comment');
 
 
 module.exports=function(app){
-  /*请求预处理*/
+  /**请求预处理**/
   app.use(function(req,res,next){
     app.locals.admin = req.session.admin;
     next()
   });
 
   /**前端页面**/
-  app.get('/detail/:page',Front.detail);
+  app.get('/detail/:_id',Front.detail);
+  app.get('/hot',Front.hot);
+  app.get('/edit',Front.edit);
   app.get('/room/:room',Index.index);
   app.get('/more',Index.more);
 
@@ -27,8 +31,24 @@ module.exports=function(app){
   app.get('/admin/loginout',Admin.loginOut);
   app.post('/admin/signin',Admin.signIn);
   app.get('/admin/welcome',Admin.adminRequired,Admin.welcome);
-  
-  /*用户相关*/
+
+  /**热门话题**/
+  app.get('/admin/topic-new',Topic.topicNew);
+  app.get('/admin/topic-update/:_id',Topic.topicUpdate);
+  // app.get('/admin/topic-profile/:_id',Admin.adminRequired,Topic.topicProfile);
+  app.post('/topic/new',Topic.new);
+  app.post('/topic/update',Topic.update);
+  app.get('/topic/praise/:_id',Topic.praise);
+  app.get('/admin/topic-list',Topic.topicList);
+
+  /**评论管理**/
+  app.get('/admin/comment-list/',Comment.commentList);
+  app.get('/admin/comment-profile/:_id',Comment.commentProfile);
+  app.post('/comment/add-sub/:_id',Comment.addSub);
+  app.post('/comment/del-sub/:_id',Comment.delSub);
+  app.post('/comment/new/',Comment.new);
+
+  /**用户相关**/
   app.get('/admin/user-new',Admin.adminRequired,User.userNew);
   app.get('/admin/user-update/:_id',Admin.adminRequired,User.userUpdate);
   app.get('/admin/user-profile/:_id',Admin.adminRequired,User.userProfile);
@@ -36,7 +56,7 @@ module.exports=function(app){
   app.post('/user/update',Admin.adminRequired,User.update);
   app.get('/admin/user-list',Admin.adminRequired,User.userList);
   
-  /*房间相关*/
+  /**房间相关**/
   app.get('/admin/room-new',Admin.adminRequired,Room.roomNew);
   app.get('/admin/room-update/:_id',Admin.adminRequired,Room.roomUpdate);
   app.get('/admin/room-profile/:_id',Admin.adminRequired,Room.roomProfile);
@@ -44,7 +64,7 @@ module.exports=function(app){
   app.post('/room/update',Admin.adminRequired,Room.update);
   app.get('/admin/room-list',Admin.adminRequired,Room.roomList);
 
-  /*视频相关*/
+  /**视频相关**/
   app.get('/admin/video-new/:room_id',Admin.adminRequired,Video.videoNew);
   app.get('/admin/video-update/:_id',Admin.adminRequired,Video.videoUpdate);
   app.post('/video/new',Admin.adminRequired,Video.new);
@@ -60,13 +80,12 @@ module.exports=function(app){
     res.status(404).send('Sorry cant find that!');
   });
 
-  app.use(function(err, req, res) {
+  app.use(function(err, req, res, next) {
     if(err.stack){
-      res.status(500).send('Something broke!<br>'+err.stack.replace(/[\n]+/g,'<br>'));
+      res.status(500).send('Something broke!1<br>'+err.stack.replace(/[\n]+/g,'<br>'));
     }else{
-      res.status(500).send(err)
+      res.status(500).send('Something broke!2<br>'+err)
     }
-
   });
 
 };

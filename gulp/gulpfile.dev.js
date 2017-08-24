@@ -65,23 +65,24 @@ function dev(){
       .pipe(reload({stream:true}));
   });
 
-
   /**
-   * normalize
+   * vendor
    */
-  gulp.task('normalize:dev', function () {
-    return gulp.src(config.normalize)
-      .pipe(gulp.dest(config.public.css));
+  gulp.task('vendor:dev', function () {
+    return gulp.src([
+      config.vendor
+    ])
+      .pipe(gulp.dest(config.public.vendor));
   });
 
   /**
-   * vender
+   * ueditor
    */
-  gulp.task('model:dev', function () {
+  gulp.task('ueditor:dev', function () {
     return gulp.src([
-      'src/model/**/**.*'
+      config.ueditor
     ])
-      .pipe(gulp.dest('public/vendor'));
+      .pipe(gulp.dest(config.public.dir));
   });
 
   /**
@@ -106,13 +107,15 @@ function dev(){
   /**
    * server-watch
    */
-  gulp.task('server-watch',['front-less:dev','front-img:dev','front-js:dev','admin-js:dev','admin-less:dev','admin-img:dev','normalize:dev','model:dev'], function() {
+  gulp.task('server-watch',['front-less:dev','front-img:dev','front-js:dev','admin-js:dev','admin-less:dev','admin-img:dev','vendor:dev','nodemon'], function() {
     const files=[
       'views/**/*.pug'
     ];
 
     browserSync.init({
-      proxy: "localhost:3000/admin/welcome"
+      proxy: "localhost:3000/admin/welcome",
+      notify: false,
+      port: 3001
     });
 
     gulp.watch(config.front.js, ['front-js:dev']);

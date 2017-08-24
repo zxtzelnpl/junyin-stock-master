@@ -1,10 +1,10 @@
 doctype
 html.login-bg
     head
-        include ../include/meta
+        include ../include/admin/meta
         title #{title}
-        include ../include/bootstrap
-        include ../include/globalStyle
+        include ../include/admin/bootstrap
+        include ../include/admin/globalStyle
 
         <!-- libraries and this page specific styles -->
         block css
@@ -13,8 +13,8 @@ html.login-bg
 
 
     body
-        include ../include/navbar
-        include ../include/sidebar
+        include ../include/admin/navbar
+        include ../include/admin/sidebar
         block content
 
     script(src="/vendor/js/jquery-3.2.1.min.js")

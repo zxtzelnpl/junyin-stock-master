@@ -36,7 +36,6 @@ exports.videoUpdate = function(req,res,next){
 
 exports.new = function(req,res,next){
   var video = new VideoModel(req.body);
-  console.log(video);
   video
     .save()
     .then(function(video){

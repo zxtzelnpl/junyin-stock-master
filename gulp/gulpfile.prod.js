@@ -49,26 +49,25 @@ function prov() {
       .pipe(gulp.dest(config.public.img))
   });
 
-
   /**
-   * normalize
+   * vendor
    */
-  gulp.task('normalize:prod', function () {
-    return gulp.src(config.normalize)
-      .pipe(cssmin())
-      .pipe(gulp.dest(config.public.css));
-  });
-
-  /**
-   * vender
-   */
-  gulp.task('model:prod', function () {
+  gulp.task('vendor:prod', function () {
     return gulp.src([
-      'src/model/**/**.*'
+      config.vendor
     ])
-      .pipe(gulp.dest('public/vendor'));
+      .pipe(gulp.dest(config.public.vendor));
   });
 
+  /**
+   * ueditor
+   */
+  gulp.task('ueditor:prod', function () {
+    return gulp.src([
+      config.ueditor
+    ])
+      .pipe(gulp.dest(config.public.dir));
+  });
 
   /**
    * delete the pre public
@@ -82,7 +81,7 @@ function prov() {
   /**
    * public
    */
-  gulp.task('produce',['model:prod','normalize:prod','admin-img:prod','admin-less:dev','admin-js:prod','front-img:prod','front-less:prod','front-js:prod'], function () {
+  gulp.task('produce',['admin-img:prod','admin-less:dev','admin-js:prod','front-img:prod','front-less:prod','front-js:prod','vendor:prod'], function () {
     console.log('Everything is finished');
   });
 }

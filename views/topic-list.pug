@@ -1,0 +1,38 @@
+extends layout/layout-admin
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/new-user.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .new-user#pad-wrapper
+                .row-fluid.header
+                    h3 话题列表
+                .row-fluid.table
+                    table.table.table-hover
+                        thead
+                            tr
+                                th 文章标题
+                                th 阅读数
+                                th 点赞数
+                                th 发表时间
+                                th 详情
+                                th 修改
+                                th 删除
+                        tbody
+                            if topics && topics.length > 0
+                                each item in topics
+                                    tr(class="item-id-" + item._id)
+                                        td #{item.title}
+                                        td #{item.views}
+                                        td #{item.praise}
+                                        td #{moment(item.meta.updateAt).format('YYYY/MM/DD-HH:MM')}
+                                        td: a(href="/admin/topic-profile/"+item._id) 详情
+                                        td: a(href="/admin/topic-update/"+item._id) 修改
+                                        td: a(href="/admin/topic-delete/"+item._id) 删除
+
+
+block script
