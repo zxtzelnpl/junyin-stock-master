@@ -97,6 +97,8 @@ app.locals.moment=moment;
 
 /**开发环境*/
 if('development' === app.get('env')){
+  console.log(app.get('env'));
+  console.log(app.get('ZXT'));
   app.set('showStackError',true);
   app.locals.pretty = true;
   mongoose.set('debug',true)

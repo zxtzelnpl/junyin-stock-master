@@ -81,9 +81,21 @@ function prov() {
   /**
    * public
    */
-  gulp.task('produce',['admin-img:prod','admin-less:dev','admin-js:prod','front-img:prod','front-less:prod','front-js:prod','vendor:prod'], function () {
-    console.log('Everything is finished');
-  });
+  gulp.task(
+    'produce',
+    [
+      'admin-img:prod',
+      'admin-less:dev',
+      'admin-js:prod',
+      'front-img:prod',
+      'front-less:prod',
+      'front-js:prod',
+      'ueditor:prod',
+      'vendor:prod'
+    ],
+    function () {
+      console.log('Everything is finished');
+    });
 }
 
 module.exports = prov;
