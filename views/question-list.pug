@@ -1,0 +1,59 @@
+extends layout/layout-admin
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/new-user.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .new-user#pad-wrapper
+                .row-fluid.header
+                    h3 评论列表
+                .row-fluid.table
+                    table.table.table-hover
+                        thead
+                            tr
+                                th 老师
+                                th 问题
+                                th 回答
+                                th 时间
+                                th 详情
+                                th 删除
+                        tbody
+                            if questions && questions.length > 0
+                                each item in questions
+                                    tr(class="item-id-" + item._id)
+                                        td #{item.teacher}
+                                        td #{item.ask}
+                                        td #{item.answer}
+                                        td #{moment(item.meta.updateAt).format('YYYY-MM-DD HH:MM')}
+                                        td: a(href="/admin/question-profile/"+item._id) 详情
+                                        td: a.btn-flat.danger.del 删除
+
+
+block script
+    script.
+      $(function () {
+        $('.del').on('click', function () {
+          var tr = $(this).parents('tr[class^="item-id-"]');
+          var comment_id = tr[0].className.slice(8);
+          console.log(comment_id);
+          $.ajax({
+            method: 'DELETE',
+            url: '/question/del/' + comment_id,
+            success: function (data) {
+              if (data.state === 'success') {
+                console.log(data);
+                if(data.results.n>0){
+                  tr.remove()
+                }
+              }
+            },
+            error: function (err) {
+
+            }
+          })
+        })
+      })

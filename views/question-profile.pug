@@ -1,0 +1,49 @@
+extends layout/layout-admin
+
+block css
+    <!-- libraries -->
+    link(href="/vendor/css/lib/font-awesome.css",rel="stylesheet")
+    <!-- this page specific styles -->
+    link(href="/vendor/css/compiled/user-profile.css",rel="stylesheet",media="screen")
+block content
+    .content
+        .container-fluid
+            .user-profile#pad-wrapper
+                .row-fluid.header
+                    h3.name :#{question.ask}
+                    span.area #{moment(question.meta.createAt).format('YYYY-MM-DD HH:mm')}
+                .row-fluid.profile
+                    .span12.bio
+                        .profile-box
+                            .span12.section
+                                p(id="show") #{question.answer||'暂未回答'}
+                                p(id="time") #{question.answerAt}
+                            .span12.section.comment
+                                h6 #{question.teacher}：
+                                textarea(id="answer" placeholder="在此处输入老师的回答") #{question.answer}
+                            .span12.submit-box.pull-right
+                                input.btn-glow.primary(id="add_sub" type="button" value="给出回答")
+
+block script
+    script.
+      $(function () {
+        $('#add_sub').on('click',function(){
+          var answer = $("#answer").val();
+          $.ajax({
+            method: 'POST',
+            url: '/question/answer/' + '#{question._id}',
+            data: {
+              answer:answer
+            },
+            success: function (data) {
+              if (data.state === 'success') {
+                $('#show').html(data.question.answer);
+                $('#time').html(data.question.answerAt);
+              }
+            },
+            error: function (err) {
+              console.log(err)
+            }
+          })
+        })
+      });

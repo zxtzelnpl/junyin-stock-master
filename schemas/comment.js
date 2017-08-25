@@ -22,8 +22,7 @@ const CommentSchema = new Schema({
   },
   meta: {
     createAt: {
-      type: Date,
-      default: Date.now()
+      type: Date
     },
     updateAt: {
       type: Date,

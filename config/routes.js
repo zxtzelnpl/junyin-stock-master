@@ -6,6 +6,7 @@ const Index=require('../controllers/index');
 const Front=require('../controllers/front');
 const Topic=require('../controllers/topic');
 const Comment=require('../controllers/comment');
+const Question=require('../controllers/question');
 
 
 module.exports=function(app){
@@ -46,6 +47,14 @@ module.exports=function(app){
   app.post('/comment/new/',Comment.new);
   app.get('/comment/praise/:_id',Comment.praise);
   app.delete('/comment/del/:_id',Comment.delete);
+
+  /**问答管理**/
+  app.get('/question/new',Question.new);
+  app.get('/question/list',Question.jsonpList);
+  app.get('/admin/question-list/',Question.questionList);
+  app.get('/admin/question-profile/:_id',Question.questionProfile);
+  app.post('/question/answer/:_id',Question.answer);
+  app.delete('/question/del/:_id',Question.delete);
 
   /**用户相关**/
   app.get('/admin/user-new',Admin.adminRequired,User.userNew);

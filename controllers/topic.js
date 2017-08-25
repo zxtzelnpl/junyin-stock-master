@@ -113,10 +113,10 @@ exports.delete = function(req,res,next){
   let _id = req.params._id;
   TopicModel
     .deleteOne({_id:_id})
-    .then(function(data){
+    .then(function(results){
       res.json({
         state:'success',
-        data
+        results
       })
     })
     .catch(function(err){
