@@ -96,9 +96,9 @@ routes(app);
 app.locals.moment=moment;
 
 /**开发环境*/
+
 if('development' === app.get('env')){
   console.log(app.get('env'));
-  console.log(app.get('ZXT'));
   app.set('showStackError',true);
   app.locals.pretty = true;
   mongoose.set('debug',true)
@@ -106,5 +106,5 @@ if('development' === app.get('env')){
 
 /**服务器端口监听start*/
 app.listen(port,function(){
-  console.log('The video management is start on port '+ port);
+  console.log('The stock management is start on port '+ port);
 });
