@@ -32,6 +32,8 @@ const CommentSchema = new Schema({
   }
 });
 
+
+
 CommentSchema.pre('save',function(next){
   let comment=this;
   if(comment.isNew){

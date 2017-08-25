@@ -1,9 +1,28 @@
 const TopicModel =require('../models/topic.js');
+const CommentModel =require('../models/comment.js');
 
 exports.topicNew = function(req,res){
   res.render('topic-new',{
     title:'新的热门话题'
   })
+};
+
+
+exports.topicProfile = function(req,res){
+  let topic_id = req.params._id;
+  CommentModel
+    .find({topic:topic_id})
+    .populate('topic','title')
+    .exec()
+    .then(function(comments){
+      res.render('comment-list',{
+        title:'评论列表',
+        comments
+      })
+    })
+    .catch(function(err){
+      next(err)
+    })
 };
 
 exports.new = function(req,res,next){
@@ -88,4 +107,19 @@ exports.praise = function(req,res,next){
     .catch(function (err) {
       next(err)
     });
+};
+
+exports.delete = function(req,res,next){
+  let _id = req.params._id;
+  TopicModel
+    .deleteOne({_id:_id})
+    .then(function(data){
+      res.json({
+        state:'success',
+        data
+      })
+    })
+    .catch(function(err){
+      next(err)
+    })
 };

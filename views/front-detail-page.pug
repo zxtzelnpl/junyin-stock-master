@@ -19,67 +19,63 @@ block content
             .title 热门评论
             .comments
                 ul
-                    if(hotComments && hotComments.length > 0)
-                        each item in hotComments
-                            li
+                    if hot_comments && hot_comments.length > 0
+                        each item in hot_comments
+                            li(class="item-"+item._id)
                                 .box
                                     .user-img: img(src="/img/was/user.jpg" alt="")
                                     .info
                                         p.name-box
-                                            span.name KKKKKKK线
+                                            span.name 游客
                                             span.right
                                                 a
-                                                    span.fa.fa-thumbs-o-up
-                                                    span.num 0
+                                                    span.fa.fa-thumbs-o-up.comment_thumbs
+                                                    span.num #{item.praise}
                                                 a.please
                                                     span.fa.fa-commenting-o
-                                                    span.num 2
-                                        p.time 2017-07-14 14:33
-                                        p.comment 可以进去抄底了吗，老师
-                                        .next-comment
-                                            p
-                                                span.name 董齐安
-                                                |:
-                                                span 先看小幅反抽。
-                                            p
-                                                span.name 董齐安
-                                                |:
-                                                span 先看小幅反抽。
-                                            .up-arrow
+                                                    span.num #{item.sub.length}
+                                        p.time #{moment(item.meta.createAt).format('YYYY-MM-DD HH:mm')}
+                                        p.comment #{item.content}
+                                        if item.sub&&item.sub.length>0
+                                            .next-comment
+                                                each sub in item.sub
+                                                    p
+                                                        span.name #{sub.name}
+                                                        |:
+                                                        span #{sub.content}
+                                                    .up-arrow
         .all-comments
             .title
                 |全部评论(
-                span 16
+                span #{comments.length}
                 |)
             .comments
                 ul
-                    if(allComments && allComments.length > 0)
-                        each item in allComments
-                            li
+                    if(comments && comments.length > 0)
+                        each item in comments
+                            li(class="item-"+item._id)
                                 .box
                                     .user-img: img(src="/img/was/user.jpg" alt="")
                                     .info
                                         p.name-box
-                                            span.name KKKKKKK线
+                                            span.name 游客
                                             span.right
                                                 a
-                                                    span.fa.fa-thumbs-o-up
-                                                    span.num 0
+                                                    span.fa.fa-thumbs-o-up.comment_thumbs
+                                                    span.num #{item.praise}
                                                 a.please
                                                     span.fa.fa-commenting-o
-                                                    span.num 2
-                                        p.time 2017-07-14 14:33
-                                        p.comment 可以进去抄底了吗，老师
-                                        .next-comment
-                                            p
-                                                span.name 董齐安
-                                                | :
-                                                span 先看小幅反抽。
-                                            p
-                                                span.name 董齐安
-                                                | :
-                                                span 先看小幅反抽。
-                                            .up-arrow
+                                                    span.num #{item.sub.length}
+                                        p.time #{moment(item.meta.createAt).format('YYYY-MM-DD HH:mm')}
+                                        p.comment #{item.content}
+                                        if item.sub && item.sub.length > 0
+                                            .next-comment
+                                                each sub in item.sub
+                                                    p
+                                                        span.name #{sub.name}
+                                                        | :
+                                                        span #{sub.content}
+                                                    .up-arrow
         .input-comment
             input(id="comment" type="text" placeholder="在这里发表评论")
             a.fa.fa-comment#detail_comment
@@ -89,12 +85,20 @@ block content
 block script
     script.
         $(function(){
-          /**点赞**/
+          /**存储点赞的列表**/
+          var praiseList =[];
+
+
+          /**文章点赞**/
           $('#detail_thumb').on('click',function(){
+            if(praiseList.indexOf('#{topic._id}')>-1){
+              return alert('您已经点过赞了')
+            }
             $.ajax({
               url:'/topic/praise/'+'#{topic._id}',
               success:function(data){
                 if(data.state==='success'){
+                  praiseList.push('#{topic._id}')
                   $('#detail_num').html(function(index,value){
                     return parseInt(value)+1
                   })
@@ -106,7 +110,7 @@ block script
             })
           })
 
-          /**评论**/
+          /**文章评论**/
           $('#detail_comment').on('click',function(){
             var content = $('#comment').val();
             $.ajax({
@@ -119,6 +123,24 @@ block script
               success:function(data){
                 if(data.state==='success'){
                   console.log(data.comment)
+
+                  var item = data.comment
+                  var htmlStr = '' +
+                    '<li class="item-'+item._id+'">' +
+                        '<div class="box">' +
+                            '<div class="user-img"><img src="/img/was/user.jpg" alt=""></div>' +
+                            '<div class="info">' +
+                                '<p class="name-box"><span class="name">游客</span><span class="right"><a><span class="fa fa-thumbs-o-up comment_thumbs"></span><span class="num">0</span></a><a class="please"><span class="fa fa-commenting-o"></span><span class="num">0</span></a></span></p>'+
+                                '<p class="time">'+data.time+'</p>'+
+                                '<p class="comment">'+item.content+'</p>'+
+                            '</div>'+
+                        '</div>'+
+                    '</li>';
+                  $('.comments ul').append(htmlStr);
+                  var scrollH = document.body.scrollHeight;
+                  var screenH = document.documentElement.clientHeight || document.body.clientHeight;
+                  var deltaH = scrollH - screenH;
+                  $(document).scrollTop(deltaH);
                 }
               },
               error:function(err){
@@ -127,5 +149,35 @@ block script
             })
           })
 
+          /**评论点赞**/
+          $('.comments').on('click',function(e){
+            if(e.target.className.indexOf('comment_thumbs')===-1){return}
+            var className = '.'+$(e.target).parents('li[class^="item-"]').attr('class');
+            var comment_id = className.split('-')[1];
+            if (praiseList.indexOf(comment_id) > -1) {
+              return alert('您已经点过赞了')
+            }
+            $.ajax({
+              url: '/comment/praise/' + comment_id,
+              success: function (data) {
+                if (data.state === 'success') {
+                  praiseList.push(comment_id)
+                  $(className)
+                    .find('.comment_thumbs')
+                    .next()
+                    .html(function (index, value) {
+                        return parseInt(value) + 1
+                    })
+                }
+              },
+              error: function (err) {
+                console.log(err);
+              }
+            })
+          })
+
+          function zxt(){
+
+          }
         })
 

@@ -28,7 +28,7 @@ block content
                                             tr(class="item-id-" + item._id)
                                                 td #{item.name}
                                                 td #{item.content}
-                                                td: a(data-id=item._id).btn-flat.danger.del_sub 删除
+                                                td: a.btn-flat.danger.del_sub 删除
                             .span12.section.comment
                                 h6(id="name" contenteditable=true) 董琦安
                                 textarea(id="content") 抄低买入，全仓
@@ -41,7 +41,6 @@ block script
         $('#add_sub').on('click',function(){
           var name = $("#name").html();
           var content = $("#content").val();
-          console.log(name,content);
           $.ajax({
             method: 'POST',
             url: '/comment/add-sub/' + '#{comment._id}',
@@ -51,7 +50,15 @@ block script
             },
             success: function (data) {
               if (data.state === 'success') {
-                console.log(data.sub)
+                console.log(data.sub);
+                var item=data.sub;
+                var htmlStr = '' +
+                  '<tr class="item-id-'+item._id+'">' +
+                      '<td>'+item.name+'</td>' +
+                      '<td>'+item.content+'</td>' +
+                      '<td><a class="btn-flat danger del_sub">删除</a></td>' +
+                  '</tr>';
+                $('table').find('tbody').append(htmlStr);
               }
             },
             error: function (err) {
@@ -59,8 +66,11 @@ block script
             }
           })
         })
-        $('.del_sub').on('click',function(){
-          var sub_id = $(this).data('id');
+        $('table').on('click',function(e){
+          if(e.target.className.indexOf('del_sub')===-1){return}
+          var tr = $(e.target).parents('tr[class^="item-id-"]');
+          var sub_id = tr[0].className.slice(8);
+          console.log(sub_id)
           $.ajax({
             method:'POST',
             url: '/comment/del-sub/' + '#{comment._id}',
@@ -70,6 +80,7 @@ block script
             success: function (data) {
               if (data.state === 'success') {
                 console.log(data.sub)
+                tr.remove();
               }
             },
             error: function (err) {

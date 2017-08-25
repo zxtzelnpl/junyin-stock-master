@@ -29,7 +29,6 @@ const TopicSchema = new Schema({
 
 
 TopicSchema.pre('save',function(next){
-  console.log(this);
   let topic = this;
   if(topic.isNew){
     topic.meta.createAt = topic.meta.updateAt = Date.now()

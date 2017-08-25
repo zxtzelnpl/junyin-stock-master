@@ -1,5 +1,6 @@
 const CommentModel =require('../models/comment.js');
 const TopicModel =require('../models/topic.js');
+const moment = require('moment');
 
 exports.commentNew = function(req,res){
   res.render('新热门话题',{
@@ -14,6 +15,7 @@ exports.new = function(req,res,next){
     .then((comment)=>{
       res.json({
         state:'success',
+        time:moment(comment.meta.createAt).format('YYYY-MM-DD HH:mm'),
         comment
       })
     })
@@ -67,7 +69,7 @@ exports.addSub = function(req,res,next){
     .then(function(comment){
       res.json({
         state:'success',
-        sub:comment.sub
+        sub:comment.sub.pop()
       })
     })
     .catch(function(err){
@@ -78,14 +80,13 @@ exports.addSub = function(req,res,next){
 exports.delSub = function(req,res,next){
   let _id=req.params._id;
   let sub_id = req.body.sub_id;
-  console.log(sub_id);
   CommentModel
     .findById(_id)
     .exec()
     .then(function(comment){
       let i=0,j;
       for(;i<comment.sub.length;i++){
-        if(comment.sub[i]._id===sub_id){
+        if(String(comment.sub[i]._id)===sub_id){
           j=i;
         }
       }
@@ -96,6 +97,40 @@ exports.delSub = function(req,res,next){
       res.json({
         state:'success',
         sub:comment.sub
+      })
+    })
+    .catch(function(err){
+      next(err)
+    })
+};
+
+exports.praise = function(req,res,next){
+  let _id=req.params._id;
+  CommentModel
+    .findById(_id)
+    .exec()
+    .then((comment)=>{
+      comment.praise++;
+      return comment.save();
+    })
+    .then(()=>{
+      res.json({
+        state:'success'
+      })
+    })
+    .catch(function (err) {
+      next(err)
+    });
+};
+
+exports.delete = function(req,res,next){
+  let _id = req.params._id;
+  CommentModel
+    .deleteOne({_id:_id})
+    .then(function(data){
+      res.json({
+        state:'success',
+        data
       })
     })
     .catch(function(err){

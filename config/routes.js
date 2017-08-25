@@ -22,10 +22,6 @@ module.exports=function(app){
   app.get('/room/:room',Index.index);
   app.get('/more',Index.more);
 
-  /**手机API**/
-  app.get('/mobile/:room',Index.mobile);
-  app.get('/mobile-video/:vid',Index.video);
-
   /**后台页面**/
   app.get('/admin/login',Admin.login);
   app.get('/admin/loginout',Admin.loginOut);
@@ -35,11 +31,12 @@ module.exports=function(app){
   /**热门话题**/
   app.get('/admin/topic-new',Topic.topicNew);
   app.get('/admin/topic-update/:_id',Topic.topicUpdate);
-  // app.get('/admin/topic-profile/:_id',Admin.adminRequired,Topic.topicProfile);
+  app.get('/admin/topic-list',Topic.topicList);
+  app.get('/admin/topic-profile/:_id',Topic.topicProfile);
   app.post('/topic/new',Topic.new);
   app.post('/topic/update',Topic.update);
   app.get('/topic/praise/:_id',Topic.praise);
-  app.get('/admin/topic-list',Topic.topicList);
+  app.delete('/topic/del/:_id',Topic.delete);
 
   /**评论管理**/
   app.get('/admin/comment-list/',Comment.commentList);
@@ -47,6 +44,8 @@ module.exports=function(app){
   app.post('/comment/add-sub/:_id',Comment.addSub);
   app.post('/comment/del-sub/:_id',Comment.delSub);
   app.post('/comment/new/',Comment.new);
+  app.get('/comment/praise/:_id',Comment.praise);
+  app.delete('/comment/del/:_id',Comment.delete);
 
   /**用户相关**/
   app.get('/admin/user-new',Admin.adminRequired,User.userNew);
@@ -55,6 +54,10 @@ module.exports=function(app){
   app.post('/user/new',Admin.adminRequired,User.new);
   app.post('/user/update',Admin.adminRequired,User.update);
   app.get('/admin/user-list',Admin.adminRequired,User.userList);
+
+  /**手机API**/
+  app.get('/mobile/:room',Index.mobile);
+  app.get('/mobile-video/:vid',Index.video);
   
   /**房间相关**/
   app.get('/admin/room-new',Admin.adminRequired,Room.roomNew);

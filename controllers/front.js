@@ -1,20 +1,37 @@
 const TopicModel =require('../models/topic.js');
+const CommentModel =require('../models/comment.js');
 
 exports.detail = function(req,res,next){
   let _id=req.params._id;
-  TopicModel
+  let topicPromise=TopicModel
     .findById(_id)
     .exec()
     .then((topic)=>{
       topic.views++;
       return topic.save();
+    });
+
+  let hotCommentPromise = CommentModel
+    .find({
+      topic:_id,
+      'sub.1': {$exists: true}
     })
-    .then((topic)=>{
+    .sort({'sub["length"]':1})
+    .limit(3)
+    .exec();
+
+  let commentPromise=CommentModel
+    .find({topic:_id})
+    .exec();
+
+  Promise
+    .all([topicPromise,hotCommentPromise,commentPromise])
+    .then(([topic,hot_comments,comments])=>{
       res.render('front-detail-page',{
         title:'文章详情',
         topic,
-        hotComments:[1,2,3],
-        allComments:[1,2,3]
+        comments,
+        hot_comments
       })
     })
     .catch(function (err) {
