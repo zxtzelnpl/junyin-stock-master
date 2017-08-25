@@ -8,7 +8,6 @@ const Topic=require('../controllers/topic');
 const Comment=require('../controllers/comment');
 const Question=require('../controllers/question');
 
-
 module.exports=function(app){
   /**请求预处理**/
   app.use(function(req,res,next){
