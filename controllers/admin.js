@@ -57,11 +57,11 @@ exports.signIn=function(req,res,next){
 };
 
 exports.adminRequired =function(req,res,next){
-  // if(req.session.admin){
-  //   next()
-  // }
-  // else{
-  //   next('页面不存在')
-  // }
+  if(req.session.admin){
+    next()
+  }
+  else{
+    next('页面不存在')
+  }
   next()
 };
