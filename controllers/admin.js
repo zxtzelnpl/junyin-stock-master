@@ -14,7 +14,6 @@ exports.loginOut = function (req, res) {
 };
 
 exports.welcome = function (req, res) {
-  console.log('进入到了欢迎页面')
   res.render('welcome', {
     title: '欢迎页面欢迎欢迎dada'
   })
@@ -59,7 +58,6 @@ exports.signIn=function(req,res,next){
 
 exports.adminRequired =function(req,res,next){
   if(req.session.admin){
-    console.log('########有req.session.admin########')
     next()
   }
   else{
