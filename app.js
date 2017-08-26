@@ -2,7 +2,8 @@ const path = require('path');
 
 /**定义常量*/
 const port = process.env.PORT || 3000;
-const dbUrl = 'mongodb://localhost/stock';
+const dbUrl = require('./config/database');
+console.log(dbUrl);
 const secret='stock';
 
 /**外部引入*/

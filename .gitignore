@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 node_modules/
+config/database.js
 public
 test.json
