@@ -26,7 +26,7 @@ module.exports=function(app){
   app.get('/admin/login',Admin.login);
   app.get('/admin/loginout',Admin.loginOut);
   app.post('/admin/signin',Admin.signIn);
-  app.get('/admin/welcome',Admin.welcome);
+  app.get('/admin/welcome',Admin.adminRequired,Admin.welcome);
 
   /**热门话题**/
   app.get('/topic/praise/:_id',Topic.praise);//热门话题点赞
