@@ -131,7 +131,7 @@ block script
                   var htmlStr = '' +
                     '<li class="item-'+item._id+'">' +
                         '<div class="box">' +
-                            '<div class="user-img"><img src="/img/was/user.jpg" alt=""></div>' +
+                            '<div class="user-img"><img src="/img/was/user.png" alt=""></div>' +
                             '<div class="info">' +
                                 '<p class="name-box"><span class="name">游客</span><span class="right"><a><span class="fa fa-thumbs-o-up comment_thumbs"></span><span class="num">0</span></a><a class="please"><span class="fa fa-commenting-o"></span><span class="num">0</span></a></span></p>'+
                                 '<p class="time">'+data.time+'</p>'+
@@ -139,7 +139,7 @@ block script
                             '</div>'+
                         '</div>'+
                     '</li>';
-                  $('.comments ul').append(htmlStr);
+                  $('.comments ul').eq(1).append(htmlStr);
                   var scrollH = document.body.scrollHeight;
                   var screenH = document.documentElement.clientHeight || document.body.clientHeight;
                   var deltaH = scrollH - screenH;
