@@ -167,3 +167,22 @@ exports.jsonpIndex = function(req,res){
       res.send(str)
     })
 };
+
+exports.hot = function(req,res,next){
+  let _id=req.params._id;
+  TopicModel
+    .findById(_id)
+    .exec()
+    .then((topic)=>{
+      topic.hot = !topic.hot;
+      return topic.save();
+    })
+    .then(()=>{
+      res.json({
+        state:'success'
+      })
+    })
+    .catch(function (err) {
+      next(err)
+    });
+};

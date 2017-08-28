@@ -38,6 +38,7 @@ module.exports=function(app){
   app.post('/topic/update',Admin.adminRequired,Topic.update);//热门话题更新-数据
   app.get('/admin/topic-list',Admin.adminRequired,Topic.topicList);//热门话题列表页面
   app.delete('/topic/del/:_id',Admin.adminRequired,Topic.delete);//热门话题删除
+  app.get('/topic/hot/:_id',Admin.adminRequired,Topic.hot);//热门话题置顶
 
   /**评论管理**/
   app.post('/comment/new/',Comment.new);//用户发来新的评论

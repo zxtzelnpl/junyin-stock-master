@@ -20,6 +20,7 @@ block content
                                 th 点赞数
                                 th 发表时间
                                 th 评论详情
+                                th 置顶
                                 th 修改
                                 th 删除
                         tbody
@@ -31,6 +32,13 @@ block content
                                         td #{item.praise}
                                         td #{moment(item.meta.updateAt).format('YYYY/MM/DD-HH:MM')}
                                         td: a(href="/admin/topic-profile/"+item._id target="_blank") 评论详情
+                                        td
+                                            .slider-frame
+                                                span(data-on-text="ON" data-off-text="OFF" class="slider-button")
+                                                    if item.hot
+                                                        |ON
+                                                    else
+                                                        |OFF
                                         td: a(href="/admin/topic-update/"+item._id) 修改
                                         td: a.btn-flat.danger.del 删除
 
@@ -55,4 +63,27 @@ block script
                 }
               })
             })
+
+          $('.slider-button').click(function(e){
+            var btn = $(e.target)
+            var tr = btn.parents('tr[class^="item-id-"]');
+            var topic_id = tr[0].className.slice(8);
+            $.ajax({
+              method:'GET',
+              url:'/topic/hot/'+topic_id,
+              success: function (data) {
+                if (data.state === 'success') {
+                    if ($(this).hasClass("on")) {
+                        $(this).removeClass('on').html($(this).data("off-text"));
+                    } else {
+                        $('.slider-button').removeClass('on').html($(this).data("off-text"));
+                        $(this).addClass('on').html($(this).data("on-text"));
+                    }
+                }
+              },
+              error: function (err) {
+
+              }
+            })
+          })
         })

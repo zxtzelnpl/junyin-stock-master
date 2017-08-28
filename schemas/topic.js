@@ -15,6 +15,10 @@ const TopicSchema = new Schema({
     type:Number,
     default:0
   },
+  hot:{
+    type:Boolean,
+    default:false
+  },
   meta:{
     createAt:{
       type:Date,
