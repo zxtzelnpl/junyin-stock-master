@@ -27,10 +27,12 @@ exports.new = function (req, res) {
 
 exports.jsonpList = function(req,res){
   let callback = req.query.callback;
+  let teacher = req.query.teacher;
   let data={};
   let str;
   QuestionModel
     .find({
+      teacher:teacher,
       answer:{$exists:true}
     })
     .exec()
