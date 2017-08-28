@@ -34,11 +34,10 @@ block content
                                         td: a(href="/admin/topic-profile/"+item._id target="_blank") 评论详情
                                         td
                                             .slider-frame
-                                                span(data-on-text="ON" data-off-text="OFF" class="slider-button")
-                                                    if item.hot
-                                                        |ON
-                                                    else
-                                                        |OFF
+                                                if item.hot
+                                                    span(data-on-text="ON" data-off-text="OFF" class="slider-button on") ON
+                                                else
+                                                    span(data-on-text="ON" data-off-text="OFF" class="slider-button") OFF
                                         td: a(href="/admin/topic-update/"+item._id) 修改
                                         td: a.btn-flat.danger.del 删除
 
@@ -68,15 +67,17 @@ block script
             var btn = $(e.target)
             var tr = btn.parents('tr[class^="item-id-"]');
             var topic_id = tr[0].className.slice(8);
+            console.log(topic_id);
             $.ajax({
               method:'GET',
               url:'/topic/hot/'+topic_id,
               success: function (data) {
                 if (data.state === 'success') {
-                    if ($(this).hasClass("on")) {
-                        $(this).removeClass('on').html($(this).data("off-text"));
+                  console.log(data);
+                    if (btn.hasClass("on")) {
+                      btn.removeClass('on').html(btn.data("off-text"));
                     } else {
-                        $(this).addClass('on').html($(this).data("on-text"));
+                      btn.addClass('on').html(btn.data("on-text"));
                     }
                 }
               },
