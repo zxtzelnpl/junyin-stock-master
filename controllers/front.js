@@ -40,14 +40,24 @@ exports.detail = function(req,res,next){
 };
 
 exports.hot = function(req,res,next){
-  TopicModel
-    .find({})
+  let topicsPro = TopicModel
+    .find({hot:false})
     .sort({_id:-1})
-    .exec()
-    .then(function (topics) {
+    .exec();
+
+  let hotTopicPro = TopicModel
+    .find({hot:false})
+    .sort({_id:-1})
+    .limit(1)
+    .exec();
+
+  Promise
+    .all([topicsPro,hotTopicPro])
+    .then(function ([topics,hotTopic]) {
       res.render('front-hot-topic',{
         title:'热门话题',
-        hotTopics:topics
+        topics:topics,
+        hotTopic:hotTopic[0]
       })
     })
     .catch(function (err) {

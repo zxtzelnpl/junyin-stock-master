@@ -6,27 +6,29 @@ block css
 block content
     .hotTopic
         .header
-            .banner-box: img(src="img/hotTopic/banner.jpg" alt="")
+            .banner-box
+                a(href="/detail/"+hotTopic._id)
+                    img(src="img/hotTopic/banner.jpg" alt="")
             .sub
                 span.logo-mini 天财君银会
-                span.time 17：06
+                span.time #{moment(hotTopic.meta.createAt).format('HH:MM')}
                 span.views
                     | 阅读
-                    span 10
+                    span #{hotTopic.views}
         .neck
             span.fa.fa-commenting-o
             | 9月横扫千军锦囊热卖中
         .topic-boxes
             ul
-                if hotTopics&&hotTopics.length>0
-                    each item in hotTopics
+                if topics&&topics.length>0
+                    each item in topics
                         li.box
                             a(href="/detail/"+item._id)
                                 h4 #{item.title}
                                 p.content #{item.brief}
                                 .sub
                                     span.logo-mini 天财君银会
-                                    span.time #{moment(item.views).format('HH:MM')}
+                                    span.time #{moment(item.meta.createAt).format('HH:MM')}
                                     span.views
                                         | 阅读
                                         span #{item.views}
