@@ -113,6 +113,9 @@ block script
           /**文章评论**/
           $('#detail_comment').on('click',function(){
             var content = $('#comment').val();
+            if(content===''){
+              alert('请输入评论内容，谢谢')
+            }
             $.ajax({
               method:'POST',
               url:'/comment/new/',
