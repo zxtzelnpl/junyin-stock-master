@@ -129,14 +129,34 @@ exports.jsonpIndex = function(req,res){
   let limit = req.params.limit;
   let data={};
   let str='';
-  TopicModel
+  let topicPro = TopicModel
     .find({})
-    .sort({praise:1})
-    .limit(limit)
-    .exec()
+    .sort({praise:-1})
+    .limit(parseInt(limit))
+    .exec();
+
+  let commentsOnePro = topicPro
     .then(function(topics){
+      let topic_id = topics[0]._id;
+      return CommentModel
+        .find({topic:topic_id})
+        .exec()
+    });
+
+  let commentsTwoPro = topicPro
+    .then(function(topics){
+      let topic_id = topics[1]._id;
+      return CommentModel
+        .find({topic:topic_id})
+        .exec()
+    });
+
+  Promise
+    .all([topicPro,commentsOnePro,commentsTwoPro])
+    .then(function([topics,commentsOne,commentsTwo]){
       data.state='success';
       data.topics = topics;
+      data.comments=[commentsOne,commentsTwo];
       str=callback+'('+JSON.stringify(data)+')';
       res.send(str)
     })
