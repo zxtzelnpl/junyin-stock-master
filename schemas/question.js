@@ -7,6 +7,7 @@ const PictureSchema = new Schema({
   name:String,
   teacher:String,
   ask:String,
+  phone:String,
   answer:String,
   answerAt:String,
   meta:{

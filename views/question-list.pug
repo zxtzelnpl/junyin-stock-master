@@ -16,6 +16,7 @@ block content
                         thead
                             tr
                                 th 老师
+                                th 提问人手机
                                 th 问题
                                 th 回答
                                 th 时间
@@ -26,6 +27,7 @@ block content
                                 each item in questions
                                     tr(class="item-id-" + item._id)
                                         td #{item.teacher}
+                                        td #{item.phone}||none
                                         td #{item.ask}
                                         td #{item.answer}
                                         td #{moment(item.meta.updateAt).format('YYYY-MM-DD HH:MM')}

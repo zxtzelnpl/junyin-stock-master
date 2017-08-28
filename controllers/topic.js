@@ -123,3 +123,27 @@ exports.delete = function(req,res,next){
       next(err)
     })
 };
+
+exports.jsonpIndex = function(req,res){
+  let callback = req.query.callback;
+  let limit = req.params.limit;
+  let data={};
+  let str;
+  TopicModel
+    .find({})
+    .sort({praise:1})
+    .limit(limit)
+    .exec()
+    .then(function(topics){
+      data.state='success';
+      data.topics = topics;
+      str=callback+'('+JSON.stringify(data)+')';
+      res.send(str)
+    })
+    .catch(function(err){
+      data.state='fail';
+      data.err = err;
+      str=callback+'('+JSON.stringify(data)+')';
+      res.send(str)
+    })
+};

@@ -29,6 +29,7 @@ module.exports=function(app){
   app.get('/admin/welcome',Admin.adminRequired,Admin.welcome);
 
   /**热门话题**/
+  app.get('/topic/:limit',Topic.jsonpIndex);// 取最热门的话题-jsonp
   app.get('/topic/praise/:_id',Topic.praise);//热门话题点赞
   app.get('/admin/topic-new',Admin.adminRequired,Topic.topicNew);//新建立新的热门话题-页面
   app.post('/topic/new',Admin.adminRequired,Topic.new);//新建立新的热门话题-数据
@@ -37,7 +38,6 @@ module.exports=function(app){
   app.post('/topic/update',Admin.adminRequired,Topic.update);//热门话题更新-数据
   app.get('/admin/topic-list',Admin.adminRequired,Topic.topicList);//热门话题列表页面
   app.delete('/topic/del/:_id',Admin.adminRequired,Topic.delete);//热门话题删除
-
 
   /**评论管理**/
   app.post('/comment/new/',Comment.new);//用户发来新的评论
@@ -49,8 +49,8 @@ module.exports=function(app){
   app.post('/comment/del-sub/:_id',Admin.adminRequired,Comment.delSub);//删除老师评论
 
   /**问答管理**/
-  app.get('/question/new',Question.new);//用户发来新的问题
-  app.get('/question/list',Question.jsonpList);//手机端获得所有问题的列表
+  app.get('/question/new',Question.new);//用户发来新的问题-jsonp
+  app.get('/question/list',Question.jsonpList);//手机端获得所有问题的列表-jsonp
   app.get('/admin/question-list/',Admin.adminRequired,Question.questionList);//问题列表
   app.get('/admin/question-profile/:_id',Admin.adminRequired,Question.questionProfile);//问题的详情页面
   app.post('/question/answer/:_id',Admin.adminRequired,Question.answer);//问题的回答

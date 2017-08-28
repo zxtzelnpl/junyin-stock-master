@@ -5,7 +5,8 @@ exports.new = function (req, res) {
   let callback = req.query.callback;
   let questionObj = {
     teacher:req.query.teacher,
-    ask:req.query.ask
+    ask:req.query.ask,
+    phone:req.query.phone
   };
   let question = new QuestionModel(questionObj);
   let data = {};
@@ -26,7 +27,6 @@ exports.new = function (req, res) {
 
 exports.jsonpList = function(req,res){
   let callback = req.query.callback;
-  console.log(callback);
   let data={};
   let str;
   QuestionModel

@@ -10,7 +10,7 @@ block content
         .container-fluid
             .user-profile#pad-wrapper
                 .row-fluid.header
-                    h3.name :#{question.ask}
+                    h3.name #{question.phone||无号码}:#{question.ask}
                     span.area #{moment(question.meta.createAt).format('YYYY-MM-DD HH:mm')}
                 .row-fluid.profile
                     .span12.bio
