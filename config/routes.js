@@ -29,7 +29,7 @@ module.exports=function(app){
   app.get('/admin/welcome',Admin.adminRequired,Admin.welcome);
 
   /**热门话题**/
-  app.get('/topic/:limit',Topic.jsonpIndex);// 取最热门的话题-jsonp
+  app.get('/topic/index/:limit',Topic.jsonpIndex);// 取最热门的话题-jsonp
   app.get('/topic/praise/:_id',Topic.praise);//热门话题点赞
   app.get('/admin/topic-new',Admin.adminRequired,Topic.topicNew);//新建立新的热门话题-页面
   app.post('/topic/new',Admin.adminRequired,Topic.new);//新建立新的热门话题-数据

@@ -27,7 +27,7 @@ block content
                                 each item in questions
                                     tr(class="item-id-" + item._id)
                                         td #{item.teacher}
-                                        td #{item.phone}||none
+                                        td #{item.phone||'none'}
                                         td #{item.ask}
                                         td #{item.answer}
                                         td #{moment(item.meta.updateAt).format('YYYY-MM-DD HH:MM')}

@@ -128,7 +128,7 @@ exports.jsonpIndex = function(req,res){
   let callback = req.query.callback;
   let limit = req.params.limit;
   let data={};
-  let str;
+  let str='';
   TopicModel
     .find({})
     .sort({praise:1})
